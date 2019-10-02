@@ -73,7 +73,7 @@ async function run(cwd) {
     es.filterSync(({ dependency }) => dependencies.has(dependency)),
     new UniqueBy(({ package, reason }) => `${package}/${reason}`),
     es.mapSync(({ package, severity, reason, patchedIn }) => 
-      [package, severity, reason, patchedIn].join('; ') + '\n')
+      [package, severity, reason, patchedIn].join('; ') + '\n'
     ),
     fs.createWriteStream(`${cwd}/audit-log.csv`)
   )
