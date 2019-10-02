@@ -1,0 +1,15 @@
+{
+  "name": "yarn-audit2csv",
+  "version": "0.1.0",
+  "main": "index.js",
+  "bin": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:honzabrecka/yarn-audit2csv.git"
+  },
+  "author": "jan.brecka@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "event-stream": "^4.0.1"
+  }
+}
