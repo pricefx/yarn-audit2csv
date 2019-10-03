@@ -20,6 +20,6 @@ jobs:
     - name: test
       run: |
         npm i -g yarn@1.18
-        cd test && yarn install && ./test
+        cd test && yarn install && ./test
       env:
         CI: true

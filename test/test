@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 yarn install
-yarn audit | node ../index > output.actual
-diff output.actual output.expected
+yarn audit | node ../index > ./output.actual
+diff ./output.actual ./output.expected
