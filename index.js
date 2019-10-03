@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
 const { promisify } = require('util')
 const { pipeline, Transform } = require('stream')
 const es = require('event-stream')
@@ -75,7 +74,7 @@ async function run(cwd) {
     es.mapSync(({ package, severity, reason, patchedIn }) => 
       [package, severity, reason, patchedIn].join('; ') + '\n'
     ),
-    fs.createWriteStream(`${cwd}/audit-log.csv`)
+    process.stdout
   )
 }
 
