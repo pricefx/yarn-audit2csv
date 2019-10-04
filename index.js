@@ -47,6 +47,9 @@ class UniqueBy extends Transform {
   }
 }
 
+const removeColors = (s) =>
+  s.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
+
 const parseLine = (s) => {
   const [, key, value] = s.split('│')
   return [key, value].map((s) => s.trim())
@@ -58,9 +61,7 @@ async function run(cwd) {
   await pipe(
     process.stdin,
     es.split(),
-    es.mapSync(line =>
-      line.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '')
-    ),
+    es.mapSync(removeColors),
     new Parser(),
     es.mapSync(([reasonLine,, packageLine,, patchedInLine,, dependencyLine]) => {
       const [severity, reason] = parseLine(reasonLine)
