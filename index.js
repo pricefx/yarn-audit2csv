@@ -54,7 +54,7 @@ const parseLine = (s) => {
 
 async function run(cwd) {
   const package = require(`${cwd}/package.json`)
-  const dependencies = new Set(Object.keys(package.dependencies))
+  const dependencies = new Set(package.dependencies ? Object.keys(package.dependencies) : [])
   await pipe(
     process.stdin,
     es.split(),
