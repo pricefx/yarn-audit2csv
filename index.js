@@ -56,8 +56,8 @@ const parseLine = (s) => {
 }
 
 async function run(cwd) {
-  const package = require(`${cwd}/package.json`)
-  const dependencies = new Set(Object.keys(package.dependencies))
+  const { dependencies = {} } = require(`${cwd}/package.json`)
+  const dependenciesToCheck = new Set(Object.keys(dependencies))
   await pipe(
     process.stdin,
     es.split(),
@@ -70,7 +70,7 @@ async function run(cwd) {
       const [, dependency] = parseLine(dependencyLine)
       return { severity, reason, package, patchedIn, dependency }
     }),
-    es.filterSync(({ dependency }) => dependencies.has(dependency)),
+    es.filterSync(({ dependency }) => dependenciesToCheck.has(dependency)),
     new UniqueBy(({ package, reason }) => `${package}/${reason}`),
     es.mapSync(({ package, severity, reason, patchedIn }) => 
       [package, severity, reason, patchedIn].join('; ') + '\n'

@@ -1,2 +1,4 @@
 node_modules
-test/output.actual
+test/output*.actual
+test/package.json
+test/yarn.lock

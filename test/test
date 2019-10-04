@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+## empty dependencies
+rm -rf package.json yarn.lock node_modules
+echo '{}' > ./package.json
 yarn install
-yarn audit | node ../index > ./output.actual
-diff ./output.actual ./output.expected
+yarn audit | node ../index > ./output1.actual
+diff ./output1.actual ./output1.expected
+
+## vulnerable dependency
+rm -rf package.json yarn.lock node_modules
+echo '{"dependencies":{"lodash.mergewith":"4.6.0"}}' > ./package.json
+yarn install
+yarn audit | node ../index > ./output2.actual
+diff ./output2.actual ./output2.expected
+
+## vulnerable dev dependency
+rm -rf package.json yarn.lock node_modules
+echo '{"devDependencies":{"lodash.mergewith":"4.6.0"}}' > ./package.json
+yarn install
+yarn audit | node ../index > ./output3.actual
+diff ./output3.actual ./output3.expected
