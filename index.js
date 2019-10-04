@@ -55,9 +55,12 @@ const parseLine = (s) => {
   return [key, value].map((s) => s.trim())
 }
 
+const csvRow = (...cols) => cols.join(';')
+
 async function run(cwd) {
   const { dependencies = {} } = require(`${cwd}/package.json`)
   const dependenciesToCheck = new Set(Object.keys(dependencies))
+  console.log(csvRow('package', 'severity', 'reason', 'patchedIn'))
   await pipe(
     process.stdin,
     es.split(),
@@ -72,8 +75,8 @@ async function run(cwd) {
     }),
     es.filterSync(({ dependency }) => dependenciesToCheck.has(dependency)),
     new UniqueBy(({ package, reason }) => `${package}/${reason}`),
-    es.mapSync(({ package, severity, reason, patchedIn }) => 
-      [package, severity, reason, patchedIn].join('; ') + '\n'
+    es.mapSync(({ package, severity, reason, patchedIn }) =>
+      `${csvRow(package, severity, reason, patchedIn)}\n`
     ),
     process.stdout
   )
